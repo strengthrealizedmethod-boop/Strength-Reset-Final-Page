@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7-Day Strength Reset | Strength Realized</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blush:#f2c4ce;--blush-light:#fce8ed;--blush-soft:#fdf3f5;
+  --rose:#e8a0b0;--rose-dark:#c97a90;--rose-deep:#a85870;
+  --gray-100:#f7f6f4;--gray-200:#ede9e6;--gray-300:#d4cfc9;
+  --gray-400:#b0a9a2;--gray-500:#8a8278;--gray-700:#4a4540;--gray-900:#2a2522;
+  --white:#ffffff;
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',sans-serif;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--fb);color:var(--gray-900);background:var(--white);overflow-x:hidden;line-height:1.6}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(201,122,144,0)}50%{box-shadow:0 0 36px 10px rgba(201,122,144,0.28)}}
+@keyframes progressGrow{from{width:0%}to{width:var(--target)}}
+@keyframes popIn{0%{opacity:0;transform:scale(0.9)}60%{transform:scale(1.03)}100%{opacity:1;transform:scale(1)}}
+@keyframes stepIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes accordionOpen{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ==================== SCREENS ==================== */
+#lockScreen,#loadingScreen,#productScreen{width:100%;min-height:100vh}
+#loadingScreen,#productScreen{display:none}
+
+/* ==================== LOCK ==================== */
+#lockScreen{
+  background:linear-gradient(148deg,#fce8ed 0%,#f2c4ce 32%,#e0b5c5 60%,#d4cfc9 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 24px;position:relative;overflow:hidden;
+}
+.orb{position:absolute;border-radius:50%;pointer-events:none}
+.o1{width:440px;height:440px;background:rgba(255,255,255,.14);top:-140px;right:-100px;animation:float1 8s ease-in-out infinite}
+.o2{width:280px;height:280px;background:rgba(255,255,255,.1);bottom:-90px;left:-80px;animation:float2 6s ease-in-out 2s infinite}
+.o3{width:190px;height:190px;background:rgba(168,88,112,.09);top:38%;left:4%;animation:float1 9s ease-in-out 1s infinite}
+.o4{width:110px;height:110px;background:rgba(255,255,255,.11);bottom:22%;right:6%;animation:float2 7s ease-in-out 3s infinite}
+
+.lock-inner{position:relative;z-index:2;text-align:center;max-width:520px;width:100%}
+
+.lock-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.52);border:1px solid rgba(255,255,255,.82);
+  border-radius:30px;padding:9px 20px;
+  font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--rose-deep);margin-bottom:36px;
+  animation:fadeIn 1s ease both;
+}
+.lock-title{
+  font-family:var(--fd);font-size:clamp(60px,12vw,90px);
+  font-weight:300;line-height:.95;letter-spacing:-.02em;color:var(--gray-900);
+  margin-bottom:10px;animation:fadeUp 1s ease .15s both;
+}
+.lock-title i{font-style:italic;color:var(--rose-deep)}
+.lock-sub{
+  font-family:var(--fd);font-size:clamp(17px,3.5vw,24px);font-weight:300;
+  color:var(--gray-700);letter-spacing:.04em;margin-bottom:42px;
+  animation:fadeUp 1s ease .3s both;
+}
+.lock-rule{width:48px;height:1.5px;background:var(--rose-deep);opacity:.5;margin:0 auto 42px;animation:fadeIn 1s .45s both}
+
+.whats-inside{
+  background:rgba(255,255,255,.48);border:1px solid rgba(255,255,255,.78);
+  border-radius:22px;padding:30px 32px;margin-bottom:36px;text-align:left;
+  animation:fadeUp 1s ease .52s both;
+}
+.wi-label{font-size:10px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:18px}
+.wi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.wi-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--gray-700);line-height:1.4}
+.wi-dot{width:20px;height:20px;min-width:20px;border-radius:50%;background:linear-gradient(135deg,#f2c4ce,#c97a90);display:flex;align-items:center;justify-content:center;margin-top:1px}
+.wi-dot i{font-size:10px;color:white}
+
+.price-row{display:flex;align-items:baseline;justify-content:center;gap:12px;margin-bottom:30px;animation:fadeUp 1s ease .65s both}
+.was{font-size:16px;color:var(--gray-400);text-decoration:line-through;font-weight:300}
+.now{font-family:var(--fd);font-size:58px;font-weight:300;color:var(--gray-900);line-height:1}
+.currency{font-size:14px;color:var(--gray-500);font-weight:300;align-self:flex-end;padding-bottom:6px}
+
+.unlock-btn{
+  width:100%;padding:20px 32px;border:none;border-radius:50px;cursor:pointer;
+  background:linear-gradient(135deg,#e8a0b0 0%,#c97a90 50%,#a85870 100%);
+  font-family:var(--fb);font-size:13px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:white;display:flex;align-items:center;justify-content:center;gap:10px;
+  position:relative;overflow:hidden;
+  animation:fadeUp 1s ease .78s both, glow 3.5s 2.5s ease-in-out infinite;
+  transition:transform .18s,filter .18s;
+}
+.unlock-btn:hover{transform:scale(1.022);filter:brightness(1.07)}
+.unlock-btn:active{transform:scale(.98)}
+.unlock-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+  background-size:600px 100%;animation:shimmer 2.8s linear infinite;
+}
+.unlock-btn .ti{font-size:17px}
+
+.trust-row{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:22px;flex-wrap:wrap;animation:fadeIn 1s 1.1s both}
+.t-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--gray-500);font-weight:400}
+.t-item .ti{font-size:14px;color:var(--rose-dark)}
+
+/* ==================== LOADING ==================== */
+#loadingScreen{
+  background:linear-gradient(148deg,#fce8ed 0%,#f2c4ce 40%,#d4cfc9 100%);
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 24px;
+}
+.ld-logo{font-family:var(--fd);font-size:30px;font-weight:300;color:var(--gray-900);letter-spacing:.08em;margin-bottom:52px;animation:fadeIn .5s both}
+.ld-logo i{font-style:italic;color:var(--rose-deep)}
+.prog-wrap{width:300px;margin-bottom:30px}
+.prog-bar{height:3px;background:rgba(168,88,112,.15);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,#f2c4ce,#c97a90,#a85870);border-radius:4px;width:0;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.prog-lbl{font-size:12px;color:var(--gray-500);text-align:center;margin-top:12px;font-weight:300}
+.ld-steps{display:flex;flex-direction:column;gap:16px;margin-top:40px;width:300px}
+.ld-step{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--gray-300);font-weight:300;transition:color .4s}
+.ld-step .ti{font-size:16px;color:var(--rose-dark);opacity:0;transform:scale(.7);transition:opacity .35s,transform .35s}
+.ld-step.on{color:var(--gray-700)}
+.ld-step.on .ti{opacity:1;transform:scale(1)}
+
+/* ==================== PRODUCT ==================== */
+#productScreen{display:none;flex-direction:column;background:var(--white)}
+
+/* NAV */
+.p-nav{
+  background:rgba(255,255,255,.96);border-bottom:1px solid var(--gray-200);
+  height:68px;padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
+}
+.p-brand{font-family:var(--fd);font-size:22px;font-weight:400;color:var(--gray-900);letter-spacing:.06em}
+.p-brand i{font-style:italic;color:var(--rose-deep)}
+.p-tabs{display:flex;gap:4px}
+.p-tab{
+  padding:8px 18px;border-radius:30px;font-size:12px;font-weight:500;
+  border:1px solid transparent;cursor:pointer;transition:all .2s;
+  color:var(--gray-500);background:transparent;font-family:var(--fb);letter-spacing:.03em;
+}
+.p-tab.on{background:linear-gradient(135deg,#fce8ed,#f2c4ce);border-color:var(--blush);color:var(--rose-deep)}
+.p-tab:hover:not(.on){background:var(--gray-100);color:var(--gray-700)}
+.p-unlocked{font-size:10px;font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:var(--rose-deep);background:var(--blush-soft);border:1px solid var(--blush);border-radius:20px;padding:6px 14px}
+
+/* PANELS */
+.panel{display:none;animation:fadeIn .35s ease both}
+.panel.on{display:block}
+
+/* HERO */
+.hero{
+  background:linear-gradient(150deg,#fce8ed 0%,#f2c4ce 38%,#e2b8c8 62%,#d4cfc9 100%);
+  padding:72px 40px;position:relative;overflow:hidden;
+}
+.h-orb1,.h-orb2{position:absolute;border-radius:50%;pointer-events:none}
+.h-orb1{width:360px;height:360px;background:rgba(255,255,255,.13);top:-120px;right:-50px;animation:float1 9s ease-in-out infinite}
+.h-orb2{width:210px;height:210px;background:rgba(255,255,255,.08);bottom:-70px;left:80px;animation:float2 7s ease-in-out 2.5s infinite}
+.h-inner{position:relative;z-index:2;max-width:900px;margin:0 auto}
+.h-eye{font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:18px;animation:fadeUp .5s both}
+.h-title{font-family:var(--fd);font-size:clamp(44px,8vw,68px);font-weight:300;line-height:1.04;color:var(--gray-900);margin-bottom:18px;animation:fadeUp .5s .1s both}
+.h-title i{font-style:italic;color:var(--rose-deep)}
+.h-desc{font-size:16px;font-weight:300;color:var(--gray-700);line-height:1.8;max-width:520px;margin-bottom:36px;animation:fadeUp .5s .2s both}
+.h-stats{display:flex;gap:36px;flex-wrap:wrap;animation:fadeUp .5s .3s both}
+.h-stat-n{font-family:var(--fd);font-size:46px;font-weight:300;color:var(--gray-900);line-height:1}
+.h-stat-n i{font-style:italic;color:var(--rose-deep)}
+.h-stat-l{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500);margin-top:4px}
+
+/* SECTION WRAPPERS */
+.sec{padding:72px 40px;max-width:1100px;margin:0 auto}
+.sec-alt{background:var(--gray-100)}
+.sec-alt .sec{background:var(--gray-100)}
+.sec-pink{background:linear-gradient(135deg,var(--gray-100) 0%,#fce8ed 100%)}
+.sec-pink .sec{background:transparent}
+.wrap-alt{background:var(--gray-100)}
+.wrap-pink{background:linear-gradient(135deg,var(--gray-100) 0%,#fce8ed 100%)}
+
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--rose-dark);margin-bottom:14px;display:block}
+.sec-h{font-family:var(--fd);font-size:clamp(34px,6vw,50px);font-weight:300;line-height:1.1;color:var(--gray-900);margin-bottom:12px;letter-spacing:-.01em}
+.sec-h i{font-style:italic;color:var(--rose-deep)}
+.sec-lead{font-size:15px;font-weight:300;color:var(--gray-500);line-height:1.78;max-width:560px;margin-bottom:44px}
+
+/* PILLAR CARDS */
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+.pillar-c{background:var(--white);border:1px solid var(--gray-200);border-radius:20px;padding:30px 26px;transition:transform .25s,box-shadow .25s}
+.pillar-c:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(200,130,155,.13)}
+.p-num{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--rose-dark);margin-bottom:14px}
+.p-icon{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,#fce8ed,#f2c4ce);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.p-icon .ti{font-size:22px;color:var(--rose-deep)}
+.p-name{font-size:15px;font-weight:500;color:var(--gray-900);margin-bottom:7px}
+.p-desc{font-size:13px;font-weight:300;color:var(--gray-500);line-height:1.68}
+
+/* TARGETS BAND */
+.tband{background:linear-gradient(135deg,#f2c4ce 0%,#c97a90 100%);padding:72px 40px}
+.tband-in{max-width:1000px;margin:0 auto}
+.t-title{font-family:var(--fd);font-size:clamp(34px,6vw,50px);font-weight:300;color:white;line-height:1.1;margin-bottom:12px}
+.t-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.72);max-width:500px;line-height:1.75;margin-bottom:44px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px}
+.t-card{background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:30px;transition:background .25s}
+.t-card:hover{background:rgba(255,255,255,.24)}
+.t-lbl{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:10px}
+.t-num{font-family:var(--fd);font-size:58px;font-weight:300;color:white;line-height:1;margin-bottom:12px}
+.t-unit{font-size:22px;opacity:.7}
+.t-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,.7);line-height:1.68}
+
+/* TIPS */
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.tip-c{background:var(--white);border-radius:18px;padding:28px;border-left:3px solid var(--blush);transition:transform .2s}
+.tip-c:hover{transform:translateY(-3px)}
+.tip-n{font-family:var(--fd);font-size:34px;font-weight:300;color:var(--blush);line-height:1;margin-bottom:12px}
+.tip-t{font-size:14px;font-weight:600;color:var(--gray-900);margin-bottom:8px}
+.tip-d{font-size:13px;font-weight:300;color:var(--gray-500);line-height:1.72}
+
+/* DAY CARDS */
+.days-wrap{display:flex;flex-direction:column;gap:18px}
+.day-c{border:1px solid var(--gray-200);border-radius:22px;overflow:hidden}
+.day-hdr{
+  background:linear-gradient(135deg,#fce8ed 0%,#f2c4ce 100%);
+  padding:20px 30px;display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;user-select:none;transition:filter .2s;
+}
+.day-hdr:hover{filter:brightness(.97)}
+.day-lbl{font-family:var(--fd);font-size:28px;font-weight:300;color:var(--gray-900)}
+.day-lbl b{font-weight:600;font-style:italic}
+.day-right{display:flex;align-items:center;gap:14px}
+.day-focus{font-size:10px;font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:var(--rose-deep);background:rgba(255,255,255,.55);border-radius:20px;padding:6px 14px}
+.day-arr{font-size:17px;color:var(--rose-deep);transition:transform .35s cubic-bezier(.4,0,.2,1);display:block}
+.day-arr.open{transform:rotate(180deg)}
+.day-body{max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.4,0,.2,1)}
+.day-body.open{max-height:800px}
+.day-meals{padding:28px 30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:22px}
+.meal-type{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--rose-dark);margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.meal-type::after{content:'';flex:1;height:1px;background:var(--gray-200)}
+.meal-nm{font-size:14px;font-weight:500;color:var(--gray-900);line-height:1.38;margin-bottom:6px}
+.meal-dt{font-size:12px;font-weight:300;color:var(--gray-400);line-height:1.55}
+.macros{background:var(--gray-100);padding:14px 30px;display:flex;gap:24px;flex-wrap:wrap;border-top:1px solid var(--gray-200)}
+.mac{font-size:12px;color:var(--gray-500)}
+.mac b{color:var(--rose-deep);font-weight:600}
+
+/* GROCERY */
+.groc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+.groc-count{font-size:13px;color:var(--gray-500);font-weight:300}
+.groc-clear{font-size:12px;color:var(--rose-dark);background:none;border:none;cursor:pointer;font-family:var(--fb);font-weight:500;text-decoration:underline}
+.groc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.groc-cat{background:var(--white);border:1px solid var(--gray-200);border-radius:20px;overflow:hidden}
+.groc-hdr{padding:16px 22px;display:flex;align-items:center;gap:12px}
+.cat-ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cat-ic .ti{font-size:17px}
+.cat-nm{font-family:var(--fd);font-size:18px;font-weight:400;color:var(--gray-900)}
+.groc-list{list-style:none;padding:0 22px 18px}
+.groc-item{font-size:13px;font-weight:300;color:var(--gray-700);padding:8px 0;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:10px;line-height:1.42;cursor:pointer;transition:color .2s;user-select:none}
+.groc-item:last-child{border-bottom:none}
+.groc-item.done{color:var(--gray-300);text-decoration:line-through}
+.chk{width:18px;height:18px;min-width:18px;border-radius:5px;border:1.5px solid var(--blush);background:var(--blush-soft);display:flex;align-items:center;justify-content:center;transition:all .22s}
+.chk.done{background:var(--rose-dark);border-color:var(--rose-dark)}
+.chk .ti{display:none;font-size:11px;color:white}
+.chk.done .ti{display:block}
+.cat-protein .groc-hdr{background:#fce8ed}.cat-protein .cat-ic{background:#f2c4ce}.cat-protein .cat-ic .ti{color:var(--rose-deep)}
+.cat-produce .groc-hdr{background:#edf7ee}.cat-produce .cat-ic{background:#c8e6c9}.cat-produce .cat-ic .ti{color:#2e7d32}
+.cat-fats .groc-hdr{background:#fff8e6}.cat-fats .cat-ic{background:#ffe0a0}.cat-fats .cat-ic .ti{color:#b8860b}
+.cat-carbs .groc-hdr{background:#f0f4ff}.cat-carbs .cat-ic{background:#c5d5f8}.cat-carbs .cat-ic .ti{color:#1a47a0}
+.cat-pantry .groc-hdr{background:#fdf3e7}.cat-pantry .cat-ic{background:#f5d8b0}.cat-pantry .cat-ic .ti{color:#a0520a}
+.cat-dairy .groc-hdr{background:#f3eefa}.cat-dairy .cat-ic{background:#dcc8f0}.cat-dairy .cat-ic .ti{color:#6a2fa0}
+
+/* PRINCIPLES */
+.grid-3b{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+.prin-c{background:var(--white);border-radius:20px;padding:30px;border:1px solid rgba(242,196,206,.35);transition:transform .25s}
+.prin-c:hover{transform:translateY(-3px)}
+.prin-ic{width:44px;height:44px;background:linear-gradient(135deg,#fce8ed,#f2c4ce);border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.prin-ic .ti{font-size:21px;color:var(--rose-deep)}
+.prin-t{font-family:var(--fd);font-size:21px;font-weight:400;color:var(--gray-900);margin-bottom:9px;line-height:1.2}
+.prin-t i{font-style:italic;color:var(--rose-deep)}
+.prin-d{font-size:13px;font-weight:300;color:var(--gray-500);line-height:1.72}
+
+/* CLOSING */
+.close-band{background:linear-gradient(160deg,#2a2522 0%,#4a4540 100%);padding:88px 40px;text-align:center}
+.close-in{max-width:580px;margin:0 auto}
+.close-tag{font-size:10px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--blush);margin-bottom:22px;display:block}
+.close-h{font-family:var(--fd);font-size:clamp(38px,7vw,60px);font-weight:300;color:white;line-height:1.1;margin-bottom:20px}
+.close-h i{font-style:italic;color:var(--blush)}
+.close-p{font-size:15px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.82;margin-bottom:40px}
+.close-btn{display:inline-block;background:linear-gradient(135deg,#e8a0b0,#c97a90,#a85870);color:white;font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:18px 40px;border-radius:40px;text-decoration:none;cursor:pointer;border:none;font-family:var(--fb);transition:transform .18s,filter .18s}
+.close-btn:hover{transform:scale(1.03);filter:brightness(1.06)}
+.close-brand{margin-top:52px;font-family:var(--fd);font-size:17px;font-weight:300;color:rgba(255,255,255,.18);letter-spacing:.14em;text-transform:uppercase}
+
+@media(max-width:680px){
+  .p-nav{padding:0 16px}.p-tabs{gap:2px}.p-tab{padding:6px 12px;font-size:11px}
+  .hero,.sec,.tband,.close-band{padding-left:20px;padding-right:20px}
+  .wi-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOCK SCREEN ============ -->
+<div id="lockScreen">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="orb o3"></div><div class="orb o4"></div>
+  <div class="lock-inner">
+    <div class="lock-badge"><i class="ti ti-lock" style="font-size:13px"></i> Strength Realized</div>
+    <h1 class="lock-title">7-Day<br><i>Strength</i><br>Reset</h1>
+    <p class="lock-sub">Food &amp; Nutrition Plan for Women 40+</p>
+    <div class="lock-rule"></div>
+    <div class="whats-inside">
+      <div class="wi-label">What is inside</div>
+      <div class="wi-grid">
+        <div class="wi-item"><div class="wi-dot"><i class="ti ti-check"></i></div><span>Full 7-day meal plan</span></div>
+        <div class="wi-item"><div class="wi-dot"><i class="ti ti-check"></i></div><span>Protein targets by goal</span></div>
+        <div class="wi-item"><div class="wi-dot"><i class="ti ti-check"></i></div><span>Complete grocery list</span></div>
+        <div class="wi-item"><div class="wi-dot"><i class="ti ti-check"></i></div><span>Daily macro breakdowns</span></div>
+        <div class="wi-item"><div class="wi-dot"><i class="ti ti-check"></i></div><span>Nutrition principles</span></div>
+        <div class="wi-item"><div class="wi-dot"><i class="ti ti-check"></i></div><span>Real-life success tips</span></div>
+      </div>
+    </div>
+    <div class="price-row">
+      <span class="was">$47</span>
+      <span class="now">$27</span>
+      <span class="currency">USD</span>
+    </div>
+    <button class="unlock-btn" onclick="doUnlock()">
+      <i class="ti ti-lock-open"></i> Unlock Your Plan Now
+    </button>
+    <div class="trust-row">
+      <div class="t-item"><i class="ti ti-shield-check"></i> Secure checkout</div>
+      <div class="t-item"><i class="ti ti-bolt"></i> Instant access</div>
+      <div class="t-item"><i class="ti ti-heart"></i> For women 40+</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LOADING SCREEN ============ -->
+<div id="loadingScreen" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(148deg,#fce8ed 0%,#f2c4ce 40%,#d4cfc9 100%);padding:60px 24px">
+  <div class="ld-logo">Strength <i>Realized</i></div>
+  <div class="prog-wrap">
+    <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+    <div class="prog-lbl" id="pl">Confirming your order...</div>
+  </div>
+  <div class="ld-steps">
+    <div class="ld-step" id="s1"><i class="ti ti-check"></i> Payment confirmed</div>
+    <div class="ld-step" id="s2"><i class="ti ti-check"></i> Building your meal plan</div>
+    <div class="ld-step" id="s3"><i class="ti ti-check"></i> Loading grocery list</div>
+    <div class="ld-step" id="s4"><i class="ti ti-check"></i> Ready to access</div>
+  </div>
+</div>
+
+<!-- ============ PRODUCT SCREEN ============ -->
+<div id="productScreen" style="display:none">
+
+  <nav class="p-nav">
+    <div class="p-brand">Strength <i>Realized</i></div>
+    <div class="p-tabs">
+      <button class="p-tab on" onclick="goTab('overview',this)">Overview</button>
+      <button class="p-tab" onclick="goTab('meals',this)">Meal Plan</button>
+      <button class="p-tab" onclick="goTab('grocery',this)">Grocery List</button>
+      <button class="p-tab" onclick="goTab('nutrition',this)">Nutrition</button>
+    </div>
+    <div class="p-unlocked"><i class="ti ti-lock-open" style="font-size:11px;margin-right:3px"></i>Unlocked</div>
+  </nav>
+
+  <!-- OVERVIEW -->
+  <div class="panel on" id="p-overview">
+    <div class="hero">
+      <div class="h-orb1"></div><div class="h-orb2"></div>
+      <div class="h-inner">
+        <div class="h-eye">Your 7-Day Strength Reset</div>
+        <h2 class="h-title">Your body did not fail you.<br>Your <i>strategy</i> did.</h2>
+        <p class="h-desc">After 40, eating less and doing more stops working. This plan is built around muscle, metabolism, and food that works with your hormones.</p>
+        <div class="h-stats">
+          <div><div class="h-stat-n">7</div><div class="h-stat-l">Days of meals</div></div>
+          <div><div class="h-stat-n"><i>100+</i></div><div class="h-stat-l">Grams protein daily</div></div>
+          <div><div class="h-stat-n">4</div><div class="h-stat-l">Core pillars</div></div>
+          <div><div class="h-stat-n">60+</div><div class="h-stat-l">Grocery items</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <span class="eyebrow">The Foundation</span>
+      <h2 class="sec-h">Four pillars of <i>real</i> nutrition after 40</h2>
+      <p class="sec-lead">Every meal in this plan is built on these four principles. No restriction. No suffering. Just smarter nutrition.</p>
+      <div class="grid-4">
+        <div class="pillar-c"><div class="p-num">Pillar 01</div><div class="p-icon"><i class="ti ti-meat"></i></div><div class="p-name">Protein First</div><div class="p-desc">100 to 130g daily to preserve and build muscle. Every meal is anchored by a protein source.</div></div>
+        <div class="pillar-c"><div class="p-num">Pillar 02</div><div class="p-icon"><i class="ti ti-leaf"></i></div><div class="p-name">Anti-Inflammatory</div><div class="p-desc">Reduce bloating through whole foods, omega-3s, and phytonutrients that calm the body from within.</div></div>
+        <div class="pillar-c"><div class="p-num">Pillar 03</div><div class="p-icon"><i class="ti ti-bolt"></i></div><div class="p-name">Metabolic Support</div><div class="p-desc">Strategic carbs around training, fiber-rich plants, and healthy fats to keep energy stable all day.</div></div>
+        <div class="pillar-c"><div class="p-num">Pillar 04</div><div class="p-icon"><i class="ti ti-repeat"></i></div><div class="p-name">Consistency</div><div class="p-desc">Meals are simple, repeatable, and flexible. This works in real life, not just on paper.</div></div>
+      </div>
+    </div>
+
+    <div class="tband">
+      <div class="tband-in">
+        <div class="t-title">Your Protein Targets</div>
+        <p class="t-sub">Protein is the most important macro for women over 40. Here is how to hit your numbers based on your goal.</p>
+        <div class="grid-3">
+          <div class="t-card"><div class="t-lbl">Maintenance</div><div class="t-num">100<span class="t-unit">g</span></div><div class="t-desc">Strong starting point if you are new to high-protein eating. Supports muscle and metabolism.</div></div>
+          <div class="t-card"><div class="t-lbl">Building and Recomping</div><div class="t-num">120<span class="t-unit">g</span></div><div class="t-desc">The sweet spot for most women 40+ actively strength training and wanting real results.</div></div>
+          <div class="t-card"><div class="t-lbl">Advanced Lifting</div><div class="t-num">140<span class="t-unit">g</span></div><div class="t-desc">For women lifting 4 or more days a week focused on long-term performance and recomposition.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap-alt"><div class="sec">
+      <span class="eyebrow">Success Tips</span>
+      <h2 class="sec-h">Make it <i>work</i> in real life</h2>
+      <div class="grid-2">
+        <div class="tip-c"><div class="tip-n">01</div><div class="tip-t">Prep proteins on Sunday</div><div class="tip-d">Cook a batch of chicken, boil eggs, and portion Greek yogurt. When protein is ready, hitting your daily target becomes effortless.</div></div>
+        <div class="tip-c"><div class="tip-n">02</div><div class="tip-t">Swap freely, not randomly</div><div class="tip-d">Swap protein for protein, carb for carb. Do not like cod? Use salmon. Do not like quinoa? Use brown rice. Keep the structure.</div></div>
+        <div class="tip-c"><div class="tip-n">03</div><div class="tip-t">Eat more if you train hard</div><div class="tip-d">These calorie ranges are a guide, not a ceiling. If you lift weights, you may need 150 to 250 extra calories. Undereating breaks metabolism.</div></div>
+        <div class="tip-c"><div class="tip-n">04</div><div class="tip-t">Do not fear healthy fats</div><div class="tip-d">Fat is not the enemy after 40. Your hormones need it. Removing avocado or nuts to save calories backfires every time.</div></div>
+        <div class="tip-c"><div class="tip-n">05</div><div class="tip-t">Drink water before every meal</div><div class="tip-d">Start every meal with a glass of water. It improves digestion, reduces bloating, and helps you tell genuine hunger from dehydration.</div></div>
+        <div class="tip-c"><div class="tip-n">06</div><div class="tip-t">Progress is the goal</div><div class="tip-d">Day 6 is intentionally flexible. One off-plan meal does not derail a week. It is the other 20 meals that count. Keep going.</div></div>
+      </div>
+    </div></div>
+
+    <div class="close-band">
+      <div class="close-in">
+        <span class="close-tag">Strength Realized Coaching</span>
+        <h2 class="close-h">Real strength<br>for <i>real life</i>.</h2>
+        <p class="close-p">This plan is your starting point. Real transformation happens when nutrition meets consistent strength training and recovery. That is what coaching is for.</p>
+        <button class="close-btn">DM STRENGTH to Work With Me</button>
+        <div class="close-brand">Strength Realized</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEAL PLAN -->
+  <div class="panel" id="p-meals">
+    <div class="sec">
+      <span class="eyebrow">The Plan</span>
+      <h2 class="sec-h">7 Days of <i>Strength</i> Nutrition</h2>
+      <p class="sec-lead">Tap any day to expand your full meal breakdown with macros.</p>
+      <div class="days-wrap" id="daysWrap"></div>
+    </div>
+  </div>
+
+  <!-- GROCERY -->
+  <div class="panel" id="p-grocery">
+    <div class="sec">
+      <span class="eyebrow">Shop Smart</span>
+      <h2 class="sec-h">Your Complete <i>Grocery List</i></h2>
+      <p class="sec-lead">Tap items to check them off as you shop. Everything you need for all 7 days.</p>
+      <div class="groc-top">
+        <span class="groc-count" id="gc">0 items checked</span>
+        <button class="groc-clear" onclick="clearAll()">Clear all</button>
+      </div>
+      <div class="groc-grid" id="grocGrid"></div>
+    </div>
+  </div>
+
+  <!-- NUTRITION -->
+  <div class="panel" id="p-nutrition">
+    <div class="wrap-pink"><div class="sec">
+      <span class="eyebrow">Nutrition Philosophy</span>
+      <h2 class="sec-h">What this plan <i>stands for</i></h2>
+      <p class="sec-lead">Six principles that make this different from every other nutrition plan you have tried.</p>
+      <div class="grid-3b">
+        <div class="prin-c"><div class="prin-ic"><i class="ti ti-meat"></i></div><div class="prin-t">Protein at <i>every</i> meal</div><p class="prin-d">Every meal and snack has a protein anchor. Keeps you full, preserves muscle, and stabilises blood sugar. The trifecta after 40.</p></div>
+        <div class="prin-c"><div class="prin-ic"><i class="ti ti-leaf"></i></div><div class="prin-t">No <i>ultra-processed</i> foods</div><p class="prin-d">If it comes in a packet with 20 ingredients you cannot pronounce, skip it this week. Whole foods reduce inflammation and support gut health.</p></div>
+        <div class="prin-c"><div class="prin-ic"><i class="ti ti-droplet"></i></div><div class="prin-t"><i>Hydration</i> is non-negotiable</div><p class="prin-d">Aim for 2 to 3 litres of water daily. Add electrolytes if you are training. Dehydration mimics hunger and tanks your energy.</p></div>
+        <div class="prin-c"><div class="prin-ic"><i class="ti ti-clock"></i></div><div class="prin-t">Eat within <i>30 minutes</i> of training</div><p class="prin-d">Protein plus carbs within 30 minutes of lifting maximises muscle protein synthesis after 40.</p></div>
+        <div class="prin-c"><div class="prin-ic"><i class="ti ti-heart"></i></div><div class="prin-t">Do not fear <i>healthy fats</i></div><p class="prin-d">Avocado, olive oil, salmon, nuts. Healthy fats support hormone production including oestrogen and reduce systemic inflammation.</p></div>
+        <div class="prin-c"><div class="prin-ic"><i class="ti ti-moon"></i></div><div class="prin-t">Eat before <i>bed</i> if hungry</div><p class="prin-d">A small protein snack before bed supports overnight muscle recovery. Greek yogurt, cottage cheese, or casein. Do not starve yourself.</p></div>
+      </div>
+    </div></div>
+    <div class="tband">
+      <div class="tband-in">
+        <div class="t-title">Daily Macro Averages</div>
+        <p class="t-sub">Across the 7-day plan, these are your average daily targets. Adjust up if you are lifting more than 3 times per week.</p>
+        <div class="grid-3">
+          <div class="t-card"><div class="t-lbl">Protein</div><div class="t-num">118<span class="t-unit">g</span></div><div class="t-desc">The most critical macro for women over 40 who want to maintain and build muscle.</div></div>
+          <div class="t-card"><div class="t-lbl">Carbohydrates</div><div class="t-num">136<span class="t-unit">g</span></div><div class="t-desc">Whole food complex carbs. Your brain and muscles need them. Do not cut them out.</div></div>
+          <div class="t-card"><div class="t-lbl">Healthy Fats</div><div class="t-num">51<span class="t-unit">g</span></div><div class="t-desc">Essential for hormone production, mood stability, and joint health after 40.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const DAYS=[
+  {n:"One",f:"Protein Foundation",meals:[["Breakfast","Greek Yogurt Power Bowl","Full-fat Greek yogurt, mixed berries, hemp seeds, honey"],["Lunch","Salmon and Quinoa Bowl","Baked salmon, quinoa, cucumber, avocado, lemon-tahini drizzle"],["Snack","Apple and Almond Butter","1 apple, 2 tbsp natural almond butter"],["Dinner","Chicken Stir-Fry","Grilled chicken breast, broccoli, peppers, coconut aminos, brown rice"]],p:120,c:145,f:52,cal:1920},
+  {n:"Two",f:"Anti-Inflammation",meals:[["Breakfast","Turmeric Egg Scramble","3 eggs, spinach, cherry tomatoes, turmeric, sourdough toast"],["Lunch","Turkey and Veggie Wrap","Sliced turkey, hummus, roasted peppers, arugula, whole-grain wrap"],["Snack","Cottage Cheese Bowl","Half cup cottage cheese, pineapple chunks, chia seeds"],["Dinner","Baked Cod and Roasted Veg","Cod fillet, sweet potato, zucchini, olive oil, garlic, fresh herbs"]],p:115,c:138,f:48,cal:1860},
+  {n:"Three",f:"Gut Health",meals:[["Breakfast","Overnight Oats","Rolled oats, collagen peptides, almond milk, banana, walnuts, cinnamon"],["Lunch","Lentil and Kale Soup","Red lentils, kale, carrots, celery, bone broth base, sourdough slice"],["Snack","Protein Shake","Whey or plant protein, almond milk, frozen berries, flaxseed"],["Dinner","Ground Turkey Taco Bowl","Seasoned turkey, black beans, brown rice, salsa, Greek yogurt"]],p:118,c:162,f:44,cal:1900},
+  {n:"Four",f:"Hormonal Balance",meals:[["Breakfast","Smoked Salmon Plate","Smoked salmon, 2 boiled eggs, cucumber slices, rye crispbreads, capers"],["Lunch","Big Green Protein Salad","Grilled chicken, mixed greens, edamame, pumpkin seeds, olive oil dressing"],["Snack","Celery and Hummus","Celery sticks, quarter cup hummus, handful of almonds"],["Dinner","Beef and Veggie Sheet Pan","Lean beef strips, broccoli, onions, cherry tomatoes, balsamic glaze"]],p:125,c:120,f:58,cal:1940},
+  {n:"Five",f:"Energy and Recovery",meals:[["Breakfast","Protein Pancakes","Oat flour, eggs, banana, whey protein, berries and maple syrup"],["Lunch","Tuna Stuffed Avocado","Wild tuna, avocado halves, diced red onion, lemon, capers, greens"],["Snack","Greek Yogurt and Granola","Plain Greek yogurt, low-sugar granola, honey"],["Dinner","Chicken and Sweet Potato","Herb-roasted chicken thighs, baked sweet potato, steamed green beans"]],p:122,c:155,f:50,cal:1950},
+  {n:"Six",f:"Flexibility Day",meals:[["Breakfast","Veggie Omelette","3 eggs, mushrooms, bell pepper, feta cheese, fresh fruit"],["Lunch","Shrimp and Cauliflower Rice","Garlic shrimp, cauliflower rice, edamame, sesame oil, spring onion"],["Snack","Dark Chocolate and Walnuts","2 squares 85 percent dark chocolate, small handful of walnuts"],["Dinner","Enjoy a Social Meal","Choose a protein, add veggies, enjoy the moment with family or friends"]],p:110,c:120,f:55,cal:1800},
+  {n:"Seven",f:"Rest and Rebuild",meals:[["Breakfast","Chia Pudding","Chia seeds, coconut milk, vanilla, mango slices, hemp seeds"],["Lunch","Bone Broth Soup","Bone broth, shredded chicken, rice noodles, bok choy, ginger"],["Snack","Boiled Eggs and Cucumber","2 boiled eggs, cucumber slices, pinch of sea salt"],["Dinner","Baked Salmon and Greens","Herb-crusted salmon, sauteed spinach with garlic, lemon roasted asparagus"]],p:118,c:110,f:52,cal:1870}
+];
+
+const GROC=[
+  {nm:"Proteins",cls:"cat-protein",ic:"ti-meat",items:["Chicken breast or thighs (1.5 kg)","Salmon fillets (4 to 6 pieces)","Smoked salmon (150g)","Cod fillets (2 pieces)","Wild tuna in water (2 cans)","Lean ground turkey (500g)","Lean beef strips (400g)","Shrimp, raw (300g)","Eggs, free-range (18 pack)","Whey or plant protein powder","Collagen peptides"]},
+  {nm:"Fresh Produce",cls:"cat-produce",ic:"ti-leaf",items:["Spinach (large bag)","Kale (1 bunch)","Mixed greens and arugula","Broccoli (2 heads)","Zucchini (2)","Asparagus (1 bunch)","Bok choy (2)","Bell peppers, mixed (4)","Cherry tomatoes (2 pints)","Cucumber (2)","Celery (1 bunch)","Mushrooms (250g)","Avocados (5 to 6)","Bananas (bunch)","Apples (4 to 5)","Mixed berries","Mango (1)","Lemons (4)","Garlic (1 bulb)","Ginger root","Red onion (2)","Carrots (4)","Sweet potatoes (3)"]},
+  {nm:"Dairy and Alternatives",cls:"cat-dairy",ic:"ti-droplet",items:["Plain full-fat Greek yogurt (large)","Cottage cheese (500g)","Feta cheese (150g)","Almond milk, unsweetened (2 cartons)","Coconut milk, full-fat (1 can)"]},
+  {nm:"Healthy Fats and Nuts",cls:"cat-fats",ic:"ti-heart",items:["Extra-virgin olive oil","Coconut aminos","Sesame oil","Natural almond butter","Walnuts (200g)","Almonds (200g)","Pumpkin seeds (150g)","Hemp seeds (150g)","Chia seeds (200g)","Ground flaxseed (150g)","Tahini","Dark chocolate 85 percent (1 bar)"]},
+  {nm:"Complex Carbs and Grains",cls:"cat-carbs",ic:"ti-grain",items:["Quinoa (400g)","Brown rice (500g)","Rice noodles (200g)","Rolled oats (500g)","Oat flour (200g)","Sourdough bread (1 loaf)","Rye crispbreads (1 pack)","Whole-grain wraps","Black beans, canned (2 cans)","Red lentils (300g)","Edamame, frozen (400g)","Cauliflower rice, frozen (bag)","Low-sugar granola"]},
+  {nm:"Pantry Essentials",cls:"cat-pantry",ic:"ti-tools",items:["Hummus (250g)","Salsa (jar)","Bone broth (1 carton)","Capers (small jar)","Balsamic vinegar","Raw honey","Pure maple syrup","Turmeric, ground","Cinnamon, ground","Cumin, paprika, mixed herbs","Sea salt and black pepper","Vanilla extract"]}
+];
+
+let openDay=null, checked={};
+
+function buildDays(){
+  const w=document.getElementById('daysWrap');
+  if(w.children.length)return;
+  DAYS.forEach((d,i)=>{
+    const el=document.createElement('div');
+    el.className='day-c';
+    el.innerHTML=`
+      <div class="day-hdr" onclick="toggleDay(${i})" id="dh${i}">
+        <div class="day-lbl">Day <b>${d.n}</b></div>
+        <div class="day-right">
+          <div class="day-focus">${d.f}</div>
+          <i class="ti ti-chevron-down day-arr" id="da${i}"></i>
+        </div>
+      </div>
+      <div class="day-body" id="db${i}">
+        <div class="day-meals">
+          ${d.meals.map(m=>`<div>
+            <div class="meal-type">${m[0]}</div>
+            <div class="meal-nm">${m[1]}</div>
+            <div class="meal-dt">${m[2]}</div>
+          </div>`).join('')}
+        </div>
+        <div class="macros">
+          <div class="mac"><b>${d.p}g</b> Protein</div>
+          <div class="mac"><b>${d.c}g</b> Carbs</div>
+          <div class="mac"><b>${d.f}g</b> Fats</div>
+          <div class="mac"><b>${d.cal.toLocaleString()}</b> Calories</div>
+        </div>
+      </div>`;
+    w.appendChild(el);
+  });
+}
+
+function toggleDay(i){
+  if(openDay!==null&&openDay!==i){
+    document.getElementById('db'+openDay).classList.remove('open');
+    document.getElementById('da'+openDay).classList.remove('open');
+  }
+  const b=document.getElementById('db'+i),a=document.getElementById('da'+i);
+  const was=b.classList.contains('open');
+  b.classList.toggle('open',!was);
+  a.classList.toggle('open',!was);
+  openDay=was?null:i;
+}
+
+function buildGroc(){
+  const g=document.getElementById('grocGrid');
+  if(g.children.length)return;
+  GROC.forEach(cat=>{
+    const d=document.createElement('div');
+    d.className='groc-cat '+cat.cls;
+    d.innerHTML=`
+      <div class="groc-hdr">
+        <div class="cat-ic"><i class="ti ${cat.ic}"></i></div>
+        <div class="cat-nm">${cat.nm}</div>
+      </div>
+      <ul class="groc-list">
+        ${cat.items.map((item,j)=>{
+          const k=cat.nm+'_'+j;
+          return `<li class="groc-item" id="gi_${k}" onclick="tick('${k}',this)">
+            <div class="chk" id="ck_${k}"><i class="ti ti-check"></i></div>${item}
+          </li>`;
+        }).join('')}
+      </ul>`;
+    g.appendChild(d);
+  });
+}
+
+function tick(k,el){
+  const ck=document.getElementById('ck_'+k);
+  const on=el.classList.contains('done');
+  el.classList.toggle('done',!on);
+  ck.classList.toggle('done',!on);
+  on?delete checked[k]:checked[k]=1;
+  document.getElementById('gc').textContent=Object.keys(checked).length+' items checked';
+}
+
+function clearAll(){
+  document.querySelectorAll('.groc-item').forEach(l=>l.classList.remove('done'));
+  document.querySelectorAll('.chk').forEach(c=>c.classList.remove('done'));
+  checked={};
+  document.getElementById('gc').textContent='0 items checked';
+}
+
+function goTab(name,btn){
+  document.querySelectorAll('.p-tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='meals')buildDays();
+  if(name==='grocery')buildGroc();
+}
+
+const STEPS=[
+  {id:'s1',lbl:'Building your meal plan...',pct:35},
+  {id:'s2',lbl:'Loading your grocery list...',pct:65},
+  {id:'s3',lbl:'Setting up your nutrition guide...',pct:88},
+  {id:'s4',lbl:'Ready. Unlocking now...',pct:100}
+];
+
+function doUnlock(){
+  document.getElementById('lockScreen').style.display='none';
+  const ls=document.getElementById('loadingScreen');
+  ls.style.display='flex';
+  const pf=document.getElementById('pf'), pl=document.getElementById('pl');
+  let i=0;
+  function next(){
+    if(i>=STEPS.length)return;
+    const s=STEPS[i++];
+    setTimeout(()=>{
+      document.getElementById(s.id).classList.add('on');
+      pf.style.width=s.pct+'%';
+      pl.textContent=s.lbl;
+      next();
+    },i===1?300:620);
+  }
+  next();
+  setTimeout(()=>{
+    ls.style.display='none';
+    const ps=document.getElementById('productScreen');
+    ps.style.display='block';
+    ps.style.animation='popIn .65s cubic-bezier(.34,1.56,.64,1) both';
+    window.scrollTo(0,0);
+  },3100);
+}
+</script>
+</body>
+</html>
